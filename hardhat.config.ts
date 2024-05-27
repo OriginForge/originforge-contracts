@@ -81,7 +81,7 @@ const config: HardhatUserConfig = {
   networks: {
     klaytn: {
       chainId: 8217,
-      url: "https://en.ciccommunity.com:8551",
+      url: process.env.KLAYTN_NODE_LIVE_ENDPOINT as string,
       accounts: [process.env.PRIVATE_KEY as string],
     },
     baobab: {

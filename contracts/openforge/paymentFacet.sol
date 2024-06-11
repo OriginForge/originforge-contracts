@@ -14,8 +14,9 @@ contract PaymentFacet is ReentrancyGuard {
     AppStorage internal s;
 
     // payable 필요 없나?
-    function pay(uint payAmount) external returns (uint, uint) {
+    function pay(uint payAmount) external payable returns (uint, uint) {
         require(payAmount > 0.1 ether, "LibPayment: payAmount too low");
+
 
         // pangearouter
         IPoolRouter poolRouter = IPoolRouter(s.contracts["pangearouter"]);
@@ -24,13 +25,14 @@ contract PaymentFacet is ReentrancyGuard {
             .ExactInputSingleParams({
                 tokenIn: address(0),
                 amountIn: payAmount,
-                amountOutMinimum: 1000,
+                amountOutMinimum: payAmount,
                 pool: s.contracts["gcpool"],
-                to: s.contracts["bank"],
+                to: address(this),
                 unwrap: false
             });
+        
 
-        //payable
+        
         poolRouter.exactInputSingle{value: payAmount}(params);
 
         return (payAmount, block.number);
@@ -40,7 +42,7 @@ contract PaymentFacet is ReentrancyGuard {
         address _sender,
         uint reFundAmount
     ) external nonReentrant returns (uint, uint) {
-        require(reFundAmount > 5 ether, "LibPayment: reFundAmount too low");
+        // require(reFundAmount > 5 ether, "LibPayment: reFundAmount too low");
 
         IPoolRouter poolRouter = IPoolRouter(s.contracts["pangearouter"]);
 

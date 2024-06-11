@@ -18,6 +18,14 @@
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "hardhat-deploy": "^0.12.4",
-    "hardhat-diamond-abi": "^3.0.1"
+    "hardhat-diamond-abi": "^3.0.1",
+    "hardhat-shorthand": "1.0.0"
+  },
+  "overrides": {
+    "@openzeppelin/hardhat-upgrades": {
+      "@openzeppelin/defender-sdk-base-client": "1.13.1",
+      "@openzeppelin/defender-sdk-deploy-client": "1.13.1",
+      "@openzeppelin/defender-sdk-network-client": "1.13.1"
+    }
   }
 }

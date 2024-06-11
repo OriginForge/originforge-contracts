@@ -36,4 +36,11 @@ interface IERC1155 {
         address account,
         uint256 id
     ) external view returns (uint256);
+
+    function mint(
+        address to,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
+    ) external;
 }

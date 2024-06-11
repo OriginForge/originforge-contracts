@@ -1,7 +1,7 @@
 // // SPDX-License-Identifier: UNLICENSED
 // pragma solidity ^0.8.22;
 
-// import {AppStorage, LibAppStorage} from "./LibAppStorage.sol";
+// import {AppStorage} from "../../shared/storage/structs/AppStorage.sol";
 // import {IPoolRouter} from "../interfaces/IPoolRouter.sol";
 // import {LibMeta} from "./LibMeta.sol";
 // import {IERC20} from "../interfaces/IERC20.sol";

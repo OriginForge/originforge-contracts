@@ -2,6 +2,7 @@
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
 // // 0xe2C851A9aD5c4DDda432635cEF2749e5D65C819C
+// // 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
@@ -109,6 +110,9 @@ contract Land is
             revert("Soulbound: Transfer failed");
         }
 
+        if (balanceOf(to) > 0) {
+            revert("Soulbound: Transfer failed");
+        }
         return super._update(to, tokenId, auth);
     }
 

@@ -164,4 +164,6 @@ interface IERC721 {
     function nextTokenId() external view returns (uint256);
 
     function safeMint(address to, string memory uri) external returns (uint);
+
+    
 }

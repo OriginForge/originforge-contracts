@@ -300,6 +300,42 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_bank",
+          "type": "address"
+        }
+      ],
+      "name": "setBankAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_gcPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_pangeaRouter",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_gcKlay",
+          "type": "address"
+        }
+      ],
+      "name": "setPaymentAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {

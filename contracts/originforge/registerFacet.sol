@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
-import {AppStorage} from "../shared/storage/structs/AppStorage.sol";
+import "../shared/storage/facets/AppStorageFacet.sol";
 import {IERC721} from "../shared/interfaces/IERC721.sol";
 
 contract RegisterFacet {

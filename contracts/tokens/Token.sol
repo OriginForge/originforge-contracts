@@ -38,7 +38,6 @@ contract Token is
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     uint256 public constant MAX_SUPPLY = 50000000 * 10 ** 18;
     address public OF_CONTRACT;
-    address public SwapScanner;
     address public GCKLAY;
 
     //
@@ -62,8 +61,7 @@ contract Token is
     function initialize(
         address defaultAdmin,
         address _ofContract,
-        address _GCKLAY,
-        address _swapScanner
+        address _GCKLAY
     ) public initializer {
         __ERC20_init("Token", "token");
         __ERC20Burnable_init();
@@ -81,7 +79,6 @@ contract Token is
 
         OF_CONTRACT = _ofContract;
         GCKLAY = _GCKLAY;
-        SwapScanner = _swapScanner;
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
@@ -141,7 +138,7 @@ contract Token is
     }
 
     function fundToken(address _to) public payable {
-        IPayment payment = IPayment(SwapScanner);
+        IPayment payment = IPayment(GCKLAY);
 
         payment.stakeFor{value: msg.value}(address(this));
 

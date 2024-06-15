@@ -8,6 +8,9 @@ import {IERC20} from "../shared/interfaces/IERC20.sol";
 import {IERC1155} from "../shared/interfaces/IERC1155.sol";
 //
 //
+// pangearouter 0x17Ac28a29670e637c8a6E1ec32b38fC301303E34
+// gc token 0x999999999939ba65abb254339eec0b2a0dac80e9
+// gc pool 0x9F8a222Fd0b75239B32Aa8a97C30669E5981dB05
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract PaymentFacet is ReentrancyGuard {
@@ -35,7 +38,7 @@ contract PaymentFacet is ReentrancyGuard {
 
         return (payAmount, block.number);
     }
-    // 0xc07f5c3200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000dcf075580c225b20000000000000000000000009f8a222fd0b75239b32aa8a97c30669e5981db05000000000000000000000000e34f22cf55db5209ba6546701d408e5f58d8703f0000000000000000000000000000000000000000000000000000000000000000
+
     function reFund(
         address _sender,
         uint reFundAmount
@@ -45,9 +48,6 @@ contract PaymentFacet is ReentrancyGuard {
         IPoolRouter poolRouter = IPoolRouter(s.contracts["pangearouter"]);
 
         IPoolRouter.ExactInputSingleParams memory params = IPoolRouter
-        // pangearouter 0x17Ac28a29670e637c8a6E1ec32b38fC301303E34
-        // gc token 0x999999999939ba65abb254339eec0b2a0dac80e9
-        // gc pool 0x9F8a222Fd0b75239B32Aa8a97C30669E5981dB05
             .ExactInputSingleParams({
                 tokenIn: s.contracts["gctoken"],
                 amountIn: reFundAmount,

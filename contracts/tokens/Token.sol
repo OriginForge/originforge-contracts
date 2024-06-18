@@ -142,7 +142,9 @@ contract Token is
 
         payment.stakeFor{value: msg.value}(address(this));
 
-        _mint(_to, msg.value);
+        uint256 tokenPrice = _calculatePrice();
+        uint256 tokenAmount = msg.value / tokenPrice;
+        _mint(_to, tokenAmount);
     }
 
     function reFundToken(address _to, uint256 _amount) public {
@@ -159,4 +161,16 @@ contract Token is
     function exitETH() public onlyRole(UPGRADER_ROLE) {
         payable(msg.sender).transfer(address(this).balance);
     }
+
+    function _calculatePrice() public view returns (uint) {
+        IERC20 token = IERC20(GCKLAY);
+        uint tokenBalance = token.balanceOf(address(this));
+        uint tokenPrice = tokenBalance / totalSupply();
+
+        if(tokenPrice == 0) {
+            return 1;
+        }
+        return tokenPrice;
+    }
+
 }

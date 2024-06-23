@@ -20,9 +20,8 @@ interface IPayment {
     ) external returns (uint, uint);
     function stakeFor(address recipient) external payable;
 }
-// 0xCdD929CfeA0BDF33b1CE7E03138E6f0054804D10
-/// @custom:security-contact admin@origin-forge.com
-contract Token is
+/// @custom:security-contact   https://t.me/Snailz_bot  Call "/admin desc" via bot
+contract Snail is
     Initializable,
     ERC20Upgradeable,
     ERC20BurnableUpgradeable,
@@ -36,7 +35,7 @@ contract Token is
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
-    uint256 public constant MAX_SUPPLY = 50000000 * 10 ** 18;
+    uint256 public constant MAX_SUPPLY = 100000000 * 10 ** 18;
     address public OF_CONTRACT;
     address public GCKLAY;
 
@@ -55,18 +54,18 @@ contract Token is
         _disableInitializers();
     }
 
-    receive() external payable {}
+    receive() external payable {
+        fundToken(msg.sender);
+    }
 
     function initialize(
-        address defaultAdmin,
-        address _ofContract,
-        address _GCKLAY
+        address defaultAdmin
     ) public initializer {
-        __ERC20_init("Token", "token");
+        __ERC20_init("Snail", "Snail");
         __ERC20Burnable_init();
         __ERC20Pausable_init();
         __AccessControl_init();
-        __ERC20Permit_init("Token");
+        __ERC20Permit_init("Snail");
         __ERC20Votes_init();
         __UUPSUpgradeable_init();
         __ReentrancyGuard_init();
@@ -76,8 +75,7 @@ contract Token is
         _grantRole(MINTER_ROLE, defaultAdmin);
         _grantRole(UPGRADER_ROLE, defaultAdmin);
 
-        OF_CONTRACT = _ofContract;
-        GCKLAY = _GCKLAY;
+        
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
@@ -135,46 +133,45 @@ contract Token is
     {
         return super.nonces(owner);
     }
+    function fundToken(address _to) public  payable {
+        uint tokenAmount = msg.value * 1000;
+        require(tokenAmount <= MAX_SUPPLY, "Token: Max supply reached");
+        
+        // IPayment payment = IPayment(GCKLAY);
 
-    function fundToken(address _to) public payable {
-        IPayment payment = IPayment(GCKLAY);
+        // payment.stakeFor{value: msg.value}(address(this));
 
-        payment.stakeFor{value: msg.value}(address(this));
+        
+        
 
-        uint256 tokenPrice = _calculatePrice();
-        uint256 tokenAmount = msg.value / tokenPrice;
         _mint(_to, tokenAmount);
     }
 
-    function reFundToken(address _to, uint256 _amount) public {
-        (uint __amount, ) = IPayment(OF_CONTRACT).reFund(_to, _amount);
     
-        _burn(_to, _amount);
-    }
 
-    function exitToken(address _tokenAddr) public onlyRole(UPGRADER_ROLE) {
-        IERC20 token = IERC20(_tokenAddr);
-        token.transfer(msg.sender, token.balanceOf(address(this)));
-    }
+    // function exitToken(address _tokenAddr) public onlyRole(UPGRADER_ROLE) {
+    //     IERC20 token = IERC20(_tokenAddr);
+    //     token.transfer(msg.sender, token.balanceOf(address(this)));
+    // }
 
-    function exitKlay() public onlyRole(UPGRADER_ROLE) {
-        payable(msg.sender).transfer(address(this).balance);
-    }
+    // function exitKlay() public onlyRole(UPGRADER_ROLE) {
+    //     payable(msg.sender).transfer(address(this).balance);
+    // }
 
-    function _calculatePrice() public view returns (uint) {
-        IERC20 token = IERC20(GCKLAY);
-        uint tokenBalance = token.balanceOf(address(this));
-        uint tokenPrice = tokenBalance / totalSupply();
+    // function _calculatePrice() public view returns (uint) {
+    //     IERC20 token = IERC20(GCKLAY);
+    //     uint tokenBalance = token.balanceOf(address(this));
+    //     uint tokenPrice = tokenBalance / totalSupply();
 
-        if(tokenPrice == 0) {
-            return 1;
-        }
-        return tokenPrice;
-    }
+    //     if(tokenPrice == 0) {
+    //         return 1;
+    //     }
+    //     return tokenPrice;
+    // }
 
     function setContracts(address _gcklay, address _ofContract) public onlyRole(UPGRADER_ROLE) {
         GCKLAY = _gcklay;
         OF_CONTRACT = _ofContract;
     }
-
+    
 }

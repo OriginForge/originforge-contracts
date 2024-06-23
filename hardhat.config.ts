@@ -89,6 +89,18 @@ const config: HardhatUserConfig = {
       url: process.env.KLAYTN_NODE_TEST_ENDPOINT as string,
       accounts: [process.env.PRIVATE_KEY as string],
     },
+    
+    snail_cypress: {
+      chainId: 8217,
+      url: process.env.KLAYTN_NODE_LIVE_ENDPOINT as string,
+      accounts: [process.env.SNAIL_KEY as string],
+    },
+    snail_baobab: {
+      chainId: 1001,
+      url: process.env.KLAYTN_NODE_TEST_ENDPOINT as string,
+      accounts: [process.env.SNAIL_KEY as string],
+    },
+
   },
   namedAccounts: {
     deployer: 0,
